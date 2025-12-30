@@ -26,15 +26,15 @@ public sealed class RFDETRDetectionProcessor : OutputProcessor<List<Detection>>
 		var logits = output.Tensors[1];
 		var queriesCount = boxes.Dimensions[1];
 		var detections = new List<Detection>();
-		for (int i = 0; i < queriesCount; i++)
+		for (int queryIndex = 0; queryIndex < queriesCount; queryIndex++)
 		{
-			var classification = GetClassification(logits, i);
-			var bounding = GetBounding(boxes, i);
-			var detection = new Detection(classification, bounding, (ushort)i);
+			var classification = GetClassification(logits, queryIndex);
+			if (classification.Confidence < MinimumConfidence)
+				continue;
+			var bounding = GetBounding(boxes, queryIndex);
+			var detection = new Detection(classification, bounding, (ushort)queryIndex);
 			detections.Add(detection);
 		}
-		ApplySigmoid(detections);
-		detections = detections.Where(detection => detection.Confidence >= MinimumConfidence).ToList();
 		return detections;
 	}
 
@@ -43,12 +43,13 @@ public sealed class RFDETRDetectionProcessor : OutputProcessor<List<Detection>>
 		var classesCount = tensor.Dimensions[2];
 		const int batchIndex = 0;
 		var mostConfidentClassification = new Classification(0, tensor[batchIndex, queryIndex, 0]);
-		for (ushort i = 1; i < classesCount; i++)
+		for (ushort classId = 1; classId < classesCount; classId++)
 		{
-			var confidence = tensor[batchIndex, queryIndex, i];
+			var confidence = tensor[batchIndex, queryIndex, classId];
 			if (confidence > mostConfidentClassification.Confidence)
-				mostConfidentClassification = new Classification(i, confidence);
+				mostConfidentClassification = new Classification(classId, confidence);
 		}
+		mostConfidentClassification = SigmoidConfidence(mostConfidentClassification);
 		return mostConfidentClassification;
 	}
 
@@ -69,19 +70,16 @@ public sealed class RFDETRDetectionProcessor : OutputProcessor<List<Detection>>
 		return new Bounding(left, top, right, bottom);
 	}
 
-	private static void ApplySigmoid(List<Detection> detections)
+	private static Classification SigmoidConfidence(Classification classification)
 	{
-		for (var i = 0; i < detections.Count; i++)
-		{
-			var detection = detections[i];
-			var confidence = detection.Confidence;
-			var confidenceSigmoid = Sigmoid(confidence);
-			detections[i] = new Detection(new Classification(detection.ClassId, (float)confidenceSigmoid), detection.Bounding, detection.Index);
-		}
+		var classId = classification.ClassId;
+		var confidence = classification.Confidence;
+		confidence = Sigmoid(confidence);
+		return new Classification(classId, confidence);
 	}
 
-	private static double Sigmoid(float value)
+	private static float Sigmoid(float value)
 	{
-		return 1f / (1f + Math.Exp(-value));
+		return 1f / (1f + MathF.Exp(-value));
 	}
 }
