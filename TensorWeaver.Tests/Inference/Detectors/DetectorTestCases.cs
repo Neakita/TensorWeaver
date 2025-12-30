@@ -19,7 +19,7 @@ internal static class DetectorTestCases
 	private static IEnumerable<TestCase> RFDETRNano =>
 		Create(DetectorModels.RFDETRNano,
 			BusImageInfo,
-			new RFDETRDetectionProcessor(),
+			new RFDETRDetectionsProcessor(),
 			DetectionsExpectations.BusCOCOExpectations);
 
 	private static IEnumerable<TestCase> YoloV8Nano =>

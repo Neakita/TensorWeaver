@@ -71,5 +71,5 @@ public class RFDETRBenchmark
 	private Predictor _predictor = null!;
 	private Argb32[] _imageData = null!;
 	private Vector2<int> _imageSize;
-	private readonly OutputProcessor<List<Detection>> _outputProcessor = new RFDETRDetectionProcessor();
+	private readonly OutputProcessor<List<Detection>> _outputProcessor = new RFDETRDetectionsProcessor();
 }
