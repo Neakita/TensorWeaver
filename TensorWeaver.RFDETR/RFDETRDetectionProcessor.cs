@@ -42,12 +42,12 @@ public sealed class RFDETRDetectionProcessor : OutputProcessor<List<Detection>>
 	{
 		var classesCount = tensor.Dimensions[2];
 		const int batchIndex = 0;
-		var mostConfidentClassification = new Classification(0, tensor[batchIndex, queryIndex, 0]);
-		for (ushort classId = 1; classId < classesCount; classId++)
+		var mostConfidentClassification = new Classification(0, tensor[[batchIndex, queryIndex, 0]]);
+		for (int classId = 1; classId < classesCount; classId++)
 		{
 			var confidence = tensor[batchIndex, queryIndex, classId];
 			if (confidence > mostConfidentClassification.Confidence)
-				mostConfidentClassification = new Classification(classId, confidence);
+				mostConfidentClassification = new Classification((ushort)classId, confidence);
 		}
 		mostConfidentClassification = SigmoidConfidence(mostConfidentClassification);
 		return mostConfidentClassification;
@@ -57,17 +57,12 @@ public sealed class RFDETRDetectionProcessor : OutputProcessor<List<Detection>>
 	{
 		const int batchIndex = 0;
 
-		var xCenter = tensor[batchIndex, queryIndex, 0];
-		var yCenter = tensor[batchIndex, queryIndex, 1];
-		var width = tensor[batchIndex, queryIndex, 2];
-		var height = tensor[batchIndex, queryIndex, 3];
+		var xCenter = tensor[[batchIndex, queryIndex, 0]];
+		var yCenter = tensor[[batchIndex, queryIndex, 1]];
+		var width = tensor[[batchIndex, queryIndex, 2]];
+		var height = tensor[[batchIndex, queryIndex, 3]];
 
-		var left = xCenter - width / 2;
-		var top = yCenter - height / 2;
-		var right = xCenter + width / 2;
-		var bottom = yCenter + height / 2;
-
-		return new Bounding(left, top, right, bottom);
+		return Bounding.FromPoint(xCenter, yCenter, width, height);
 	}
 
 	private static Classification SigmoidConfidence(Classification classification)
