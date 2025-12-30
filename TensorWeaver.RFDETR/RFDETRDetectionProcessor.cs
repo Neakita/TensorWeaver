@@ -12,7 +12,10 @@ public sealed class RFDETRDetectionProcessor : OutputProcessor<List<Detection>>
 		set
 		{
 			if (value is <= 0 or >= 1)
-				throw new ArgumentOutOfRangeException(nameof(MinimumConfidence), value, $"Value for {MinimumConfidence} should be exclusively between 0 and 1, but was {value}");
+			{
+				var message = $"Value for {MinimumConfidence} should be exclusively between 0 and 1, but was {value}";
+				throw new ArgumentOutOfRangeException(nameof(MinimumConfidence), value, message);
+			}
 			field = value;
 		}
 	} = 0.5f;
@@ -72,8 +75,13 @@ public sealed class RFDETRDetectionProcessor : OutputProcessor<List<Detection>>
 		{
 			var detection = detections[i];
 			var confidence = detection.Confidence;
-			var confidenceSigmoid = 1f / (1f + Math.Exp(-confidence));
+			var confidenceSigmoid = Sigmoid(confidence);
 			detections[i] = new Detection(new Classification(detection.ClassId, (float)confidenceSigmoid), detection.Bounding, detection.Index);
 		}
+	}
+
+	private static double Sigmoid(float value)
+	{
+		return 1f / (1f + Math.Exp(-value));
 	}
 }
