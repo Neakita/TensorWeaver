@@ -6,7 +6,7 @@ public sealed class NearestNeighbourImageResizer : Resizer
 {
 	public void Resize<TPixel>(ReadOnlySpan2D<TPixel> source, Span2D<TPixel> target)
 	{
-		Vector2D<float> scaleFactor = new((float)source.Width / target.Width, (float)source.Height / target.Height);
+		Vector2<float> scaleFactor = new((float)source.Width / target.Width, (float)source.Height / target.Height);
 		Span<int> targetToSourcePositionLookupTable = stackalloc int[target.Width];
 		for (int targetXPosition = 0; targetXPosition < target.Width; targetXPosition++)
 		{

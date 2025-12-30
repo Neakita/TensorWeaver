@@ -44,7 +44,7 @@ internal sealed class DetectionsPlotter : ResultHandler<IEnumerable<Detection>>
 	{
 		var bounding = detection.Bounding;
 		var imageSize = processingContext.GetCurrentSize();
-		bounding *= new Vector2D<int>(imageSize.Width, imageSize.Height);
+		bounding *= new Vector2<int>(imageSize.Width, imageSize.Height);
 		Plot(processingContext, bounding);
 		PointF labelLocation = new(bounding.Left, bounding.Top);
 		Plot(processingContext, detection.Classification, labelLocation);

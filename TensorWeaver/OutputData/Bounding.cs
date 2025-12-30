@@ -13,13 +13,13 @@ public readonly struct Bounding
 		return new Bounding(left, top, right, bottom);
 	}
 
-	public static Bounding operator *(Bounding bounding, Vector2D<int> vector) => new(
+	public static Bounding operator *(Bounding bounding, Vector2<int> vector) => new(
 		bounding.Left * vector.X,
 		bounding.Top * vector.Y,
 		bounding.Right * vector.X,
 		bounding.Bottom * vector.Y);
 
-	public static Bounding operator /(Bounding bounding, Vector2D<int> vector) => new(
+	public static Bounding operator /(Bounding bounding, Vector2<int> vector) => new(
 		bounding.Left / vector.X,
 		bounding.Top / vector.Y,
 		bounding.Right / vector.X,

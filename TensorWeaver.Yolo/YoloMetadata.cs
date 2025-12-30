@@ -12,7 +12,7 @@ public sealed class YoloMetadata
 		return new YoloMetadata
 		{
 			ClassesNames = ParseNames(metadata["names"]),
-			ImageSize = new Vector2D<int>(dimensions[3], dimensions[2]),
+			ImageSize = new Vector2<int>(dimensions[3], dimensions[2]),
 			Version = DetectVersion(session),
 			Task = ParseTask(metadata)
 		};
@@ -59,7 +59,7 @@ public sealed class YoloMetadata
 	}
 
 	public ImmutableArray<string> ClassesNames { get; init; }
-	public Vector2D<int> ImageSize { get; init; }
+	public Vector2<int> ImageSize { get; init; }
 	public byte Version { get; init; }
 	public YoloTask Task { get; init; }
 }

@@ -31,7 +31,7 @@ public sealed class YoloV8DetectionsSpanProcessor : OutputSpanProcessor<Detectio
 		_detectionsComparer = detectionsComparer;
 	}
 
-	public YoloV8DetectionsSpanProcessor(ushort classesCount, Vector2D<int> imageSize, IComparer<Detection>? detectionsComparer = null)
+	public YoloV8DetectionsSpanProcessor(ushort classesCount, Vector2<int> imageSize, IComparer<Detection>? detectionsComparer = null)
 	{
 		_classesCount = classesCount;
 		_imageSize = imageSize;
@@ -72,7 +72,7 @@ public sealed class YoloV8DetectionsSpanProcessor : OutputSpanProcessor<Detectio
 	private const int FirstClassIndex = 4;
 	private readonly ushort _classesCount;
 	private readonly NonMaxSpanSuppressor _suppressor = new();
-	private readonly Vector2D<int> _imageSize;
+	private readonly Vector2<int> _imageSize;
 	private readonly List<Detection> _buffer = new();
 	private readonly IComparer<Detection>? _detectionsComparer;
 	private readonly Comparison<Detection> _confidenceReverseComparison = static (x, y) => y.Confidence.CompareTo(x.Confidence);

@@ -68,7 +68,7 @@ public class DetectionBenchmark
 			10 => new YoloV10DetectionsProcessor(metadata),
 			_ => throw new ArgumentOutOfRangeException()
 		};
-		_imageSize = new Vector2D<int>(image.Width, image.Height);
+		_imageSize = new Vector2<int>(image.Width, image.Height);
 	}
 
 	[GlobalCleanup]
@@ -91,6 +91,6 @@ public class DetectionBenchmark
 
 	private Predictor _predictor = null!;
 	private Argb32[] _imageData = null!;
-	private Vector2D<int> _imageSize;
+	private Vector2<int> _imageSize;
 	private OutputProcessor<IReadOnlyList<Detection>> _outputProcessor = null!;
 }

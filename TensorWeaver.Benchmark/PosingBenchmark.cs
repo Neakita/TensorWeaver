@@ -57,7 +57,7 @@ public class PosingBenchmark
 		Guard.IsTrue(image.DangerousTryGetSinglePixelMemory(out var data));
 		_imageData = data.ToArray();
 		_outputProcessor = new YoloPosesProcessor(_predictor.Session);
-		_imageSize = new Vector2D<int>(image.Width, image.Height);
+		_imageSize = new Vector2<int>(image.Width, image.Height);
 	}
 
 	[GlobalCleanup]
@@ -80,6 +80,6 @@ public class PosingBenchmark
 
 	private Predictor _predictor = null!;
 	private Argb32[] _imageData = null!;
-	private Vector2D<int> _imageSize;
+	private Vector2<int> _imageSize;
 	private OutputProcessor<List<Pose>> _outputProcessor = null!;
 }

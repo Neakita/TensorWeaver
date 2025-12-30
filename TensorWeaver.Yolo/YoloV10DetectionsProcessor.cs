@@ -27,7 +27,7 @@ public sealed class YoloV10DetectionsProcessor : OutputProcessor<List<Detection>
 		_imageSize = metadata.ImageSize;
 	}
 
-	public YoloV10DetectionsProcessor(Vector2D<int> imageSize)
+	public YoloV10DetectionsProcessor(Vector2<int> imageSize)
 	{
 		_imageSize = imageSize;
 	}
@@ -59,7 +59,7 @@ public sealed class YoloV10DetectionsProcessor : OutputProcessor<List<Detection>
 	}
 
 	private readonly NonMaxSuppressor _nonMaxSuppressor = new();
-	private readonly Vector2D<int> _imageSize;
+	private readonly Vector2<int> _imageSize;
 
 	private Bounding ProcessBounding(ReadOnlySpan<float> data, int index, int stride)
 	{

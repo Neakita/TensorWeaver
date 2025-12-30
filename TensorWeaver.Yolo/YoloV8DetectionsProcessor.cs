@@ -29,7 +29,7 @@ public sealed class YoloV8DetectionsProcessor : OutputProcessor<List<Detection>>
 		_imageSize = metadata.ImageSize;
 	}
 
-	public YoloV8DetectionsProcessor(int classesCount, Vector2D<int> imageSize)
+	public YoloV8DetectionsProcessor(int classesCount, Vector2<int> imageSize)
 	{
 		_classesCount = classesCount;
 		_imageSize = imageSize;
@@ -61,7 +61,7 @@ public sealed class YoloV8DetectionsProcessor : OutputProcessor<List<Detection>>
 	private const int FirstClassIndex = 4;
 	private readonly int _classesCount;
 	private readonly NonMaxSuppressor _suppressor = new();
-	private readonly Vector2D<int> _imageSize;
+	private readonly Vector2<int> _imageSize;
 
 	private Bounding ProcessBounding(DenseTensor<float> data, int detectionIndex)
 	{

@@ -51,9 +51,9 @@ internal sealed class PosesPlotter : ResultHandler<IEnumerable<Pose>>
 
 	private void Plot(IImageProcessingContext processingContext, KeyPoint keyPoint)
 	{
-		Vector2D<float> position = keyPoint.Position;
+		Vector2<float> position = keyPoint.Position;
 		var currentSize = processingContext.GetCurrentSize();
-		position *= new Vector2D<float>(currentSize.Width, currentSize.Height);
+		position *= new Vector2<float>(currentSize.Width, currentSize.Height);
 		EllipsePolygon ellipse = new(position.X, position.Y, 1);
 		processingContext.Draw(Color.Blue, 3, ellipse);
 	}
@@ -62,7 +62,7 @@ internal sealed class PosesPlotter : ResultHandler<IEnumerable<Pose>>
 	{
 		var bounding = detection.Bounding;
 		var imageSize = processingContext.GetCurrentSize();
-		bounding *= new Vector2D<int>(imageSize.Width, imageSize.Height);
+		bounding *= new Vector2<int>(imageSize.Width, imageSize.Height);
 		Plot(processingContext, bounding);
 		PointF labelLocation = new(bounding.Left, bounding.Top);
 		Plot(processingContext, detection.Classification, labelLocation);

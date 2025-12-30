@@ -26,27 +26,27 @@ internal static class DetectorTestCases
 		Create(DetectorModels.YoloV8Nano, 
 			BusImageInfo,
 			new YoloV8DetectionsProcessor((byte)DetectorModels.YoloV8Nano.ClassesNames.Count,
-				new Vector2D<int>(800, 800)),
+				new Vector2<int>(800, 800)),
 			DetectionsExpectations.BusCOCOExpectations);
 
 	private static IEnumerable<TestCase> YoloV8NanoUInt8 =>
 		Create(DetectorModels.YoloV8NanoUInt8,
 			BusImageInfo,
 			new YoloV8DetectionsProcessor((byte)DetectorModels.YoloV8NanoUInt8.ClassesNames.Count,
-				new Vector2D<int>(800, 800)),
+				new Vector2<int>(800, 800)),
 			DetectionsExpectations.BusCOCOExpectations);
 
 	private static IEnumerable<TestCase> YoloV10Nano =>
 		Create(DetectorModels.YoloV10Nano, 
 			BusImageInfo,
-			new YoloV10DetectionsProcessor(new Vector2D<int>(800, 800)),
+			new YoloV10DetectionsProcessor(new Vector2<int>(800, 800)),
 			DetectionsExpectations.BusCOCOExpectations);
 
 	private static IEnumerable<TestCase> YoloV11Nano =>
 		Create(DetectorModels.YoloV11Nano,
 			BusImageInfo,
 			new YoloV8DetectionsProcessor((byte)DetectorModels.YoloV8NanoUInt8.ClassesNames.Count,
-				new Vector2D<int>(800, 800)),
+				new Vector2<int>(800, 800)),
 			DetectionsExpectations.BusCOCOExpectations);
 
 	private static readonly ImageInfo BusImageInfo = new("bus.png");

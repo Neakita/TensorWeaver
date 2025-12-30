@@ -2,9 +2,9 @@ namespace TensorWeaver.OutputData;
 
 public readonly struct KeyPoint
 {
-	public Vector2D<float> Position { get; }
+	public Vector2<float> Position { get; }
 
-	public KeyPoint(Vector2D<float> position)
+	public KeyPoint(Vector2<float> position)
 	{
 		Position = position;
 	}

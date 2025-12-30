@@ -29,7 +29,7 @@ public sealed class YoloPosesProcessor : OutputProcessor<List<Pose>>
 		_keyPointsDimensions = poserMetadata.KeyPointsDimensions;
 	}
 
-	public YoloPosesProcessor(byte keyPointsCount, byte keyPointsDimensions, ushort classesCount, Vector2D<int> imageSize)
+	public YoloPosesProcessor(byte keyPointsCount, byte keyPointsDimensions, ushort classesCount, Vector2<int> imageSize)
 	{
 		_keyPointsCount = keyPointsCount;
 		_keyPointsDimensions = keyPointsDimensions;
@@ -54,7 +54,7 @@ public sealed class YoloPosesProcessor : OutputProcessor<List<Pose>>
 				             _classesCount;
 				var pointX = (int)tensor.Buffer.Span[offset * stride + detection.Index];
 				var pointY = (int)tensor.Buffer.Span[(offset + 1) * stride + detection.Index];
-				Vector2D<float> position = new(pointX, pointY);
+				Vector2<float> position = new(pointX, pointY);
 				position /= _imageSize.ToSingle();
 				KeyPoint keyPoint = new(position);
 				keyPoints.Add(keyPoint);
@@ -68,6 +68,6 @@ public sealed class YoloPosesProcessor : OutputProcessor<List<Pose>>
 	private readonly byte _keyPointsCount;
 	private readonly byte _keyPointsDimensions;
 	private readonly ushort _classesCount;
-	private readonly Vector2D<int> _imageSize;
+	private readonly Vector2<int> _imageSize;
 	private readonly YoloV8DetectionsProcessor _detectionProcessor;
 }
