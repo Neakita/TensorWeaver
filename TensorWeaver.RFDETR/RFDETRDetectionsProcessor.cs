@@ -22,10 +22,16 @@ public sealed class RFDETRDetectionsProcessor : OutputProcessor<List<Detection>>
 
 	public List<Detection> Process(RawOutput output)
 	{
+		var detections = new List<Detection>();
+		Process(output, detections);
+		return detections;
+	}
+
+	public void Process(RawOutput output, IList<Detection> target)
+	{
 		var boxes = output.Tensors[0];
 		var logits = output.Tensors[1];
 		var queriesCount = boxes.Dimensions[1];
-		var detections = new List<Detection>();
 		for (int queryIndex = 0; queryIndex < queriesCount; queryIndex++)
 		{
 			var classification = GetClassification(logits, queryIndex);
@@ -33,9 +39,8 @@ public sealed class RFDETRDetectionsProcessor : OutputProcessor<List<Detection>>
 				continue;
 			var bounding = GetBounding(boxes, queryIndex);
 			var detection = new Detection(classification, bounding, (ushort)queryIndex);
-			detections.Add(detection);
+			target.Add(detection);
 		}
-		return detections;
 	}
 
 	private static Classification GetClassification(DenseTensor<float> tensor, int queryIndex)
